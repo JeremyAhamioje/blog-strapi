@@ -128,3 +128,13 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Strapi SQLite database
+backend/data.db
+backend/.tmp/
+
+# Claude Code
+.claude/
+
+# npm lock files (project uses yarn)
+package-lock.json

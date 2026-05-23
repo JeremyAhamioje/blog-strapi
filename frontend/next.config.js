@@ -16,6 +16,11 @@ const nextConfig = {
         },
         {
           protocol: 'https',
+          hostname: '*.railway.app',
+          pathname: '/uploads/**',
+        },
+        {
+          protocol: 'https',
           hostname: 'images.pexels.com',
         }
       ],

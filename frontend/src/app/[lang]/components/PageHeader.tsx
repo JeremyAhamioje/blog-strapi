@@ -1,17 +1,15 @@
-// ./frontend/src/app/[lang]/components/PageHeader.tsx
-
 import React from "react";
 
-interface PageHeaderProps {
-  heading: string,
-  text?: string,
-}
+interface PageHeaderProps { heading: string; text?: string; }
 
-export default function PageHeader({ heading, text } : PageHeaderProps) {
+export default function PageHeader({ heading, text }: PageHeaderProps) {
   return (
-    <div className="my-16 w-full text-center">
-    { text && <span className="text-violet-400 font-bold">{text}</span> }
-    <h2 className="text-4xl my-4 lg:text-5xl font-bold font-heading">{heading}</h2>
-  </div>
+    <div className="sci-wrap">
+      <div className="sci-ph">
+        <div className="sci-ph__eyebrow">Blogs</div>
+        <h2 className="sci-ph__heading">{heading}</h2>
+        {text && <p className="sci-ph__text">{text}</p>}
+      </div>
+    </div>
   );
 }

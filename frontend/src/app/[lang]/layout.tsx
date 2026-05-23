@@ -1,10 +1,7 @@
-// ./frontend/src/app/[lang]/layout.tsx
-
 import type { Metadata } from "next";
 import "./globals.css";
 import { getStrapiMedia, getStrapiURL } from "./utils/api-helpers";
 import { fetchAPI } from "./utils/fetch-api";
-
 import { i18n } from "../../../i18n-config";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
@@ -12,17 +9,14 @@ import Navbar from "./components/Navbar";
 const FALLBACK_SEO = {
   title: "Strapi Starter Next Blog",
   description: "Strapi Starter Next Blog",
-}
-
+};
 
 async function getGlobal(): Promise<any> {
   const token = process.env.NEXT_PUBLIC_STRAPI_API_TOKEN;
-
   if (!token) throw new Error("The Strapi API Token environment variable is not set.");
 
   const path = `/global`;
   const options = { headers: { Authorization: `Bearer ${token}` } };
-
   const urlParamsObject = {
     populate: [
       "metadata.shareImage",
@@ -43,55 +37,31 @@ async function getGlobal(): Promise<any> {
 
 export async function generateMetadata(): Promise<Metadata> {
   const meta = await getGlobal();
-
   if (!meta.data) return FALLBACK_SEO;
-
   const { metadata, favicon } = meta.data.attributes;
   const { url } = favicon.data.attributes;
-
   return {
     title: metadata.metaTitle,
     description: metadata.metaDescription,
-    icons: {
-      icon: [new URL(url, getStrapiURL())],
-    },
+    icons: { icon: [new URL(url, getStrapiURL())] },
   };
 }
 
-export default async function RootLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: { lang: string };
-}) {
+export default async function RootLayout({ children, params }: { children: React.ReactNode; params: { lang: string } }) {
   const global = await getGlobal();
-  // TODO: CREATE A CUSTOM ERROR PAGE
   if (!global.data) return null;
-  
+
   const { navbar, footer } = global.data.attributes;
-
-  const navbarLogoUrl = getStrapiMedia(
-    navbar.navbarLogo.logoImg.data.attributes.url
-  );
-
-  const footerLogoUrl = getStrapiMedia(
-    footer.footerLogo.logoImg.data.attributes.url
-  );
+  const navbarLogoUrl = getStrapiMedia(navbar.navbarLogo.logoImg.data.attributes.url);
+  const footerLogoUrl = getStrapiMedia(footer.footerLogo.logoImg.data.attributes.url);
 
   return (
     <html lang={params.lang}>
       <body>
-        <Navbar
-          links={navbar.links}
-          logoUrl={navbarLogoUrl}
-          logoText={navbar.navbarLogo.logoText}
-        />
-
-        <main className="dark:bg-black dark:text-gray-100 min-h-screen">
+        <Navbar links={navbar.links} logoUrl={navbarLogoUrl} logoText={navbar.navbarLogo.logoText} />
+        <main style={{ minHeight: "100vh", background: "var(--bg)" }}>
           {children}
         </main>
-
         <Footer
           logoUrl={footerLogoUrl}
           logoText={footer.footerLogo.logoText}
