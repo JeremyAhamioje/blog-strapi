@@ -16,7 +16,7 @@ const nextConfig = {
         },
         {
           protocol: 'https',
-          hostname: '*.railway.app',
+          hostname: 'blog-strapi-production-dbbc.up.railway.app',
           pathname: '/uploads/**',
         },
         {
