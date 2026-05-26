@@ -15,6 +15,8 @@ function getLocale(request: NextRequest): string | undefined {
 
     // Use negotiator and intl-localematcher to get best locale
     let languages = new Negotiator({ headers: negotiatorHeaders }).languages();
+    // Filter wildcard which causes matchLocale to throw
+    languages = languages.filter((lang) => lang !== '*');
     // @ts-ignore locales are readonly
     const locales: string[] = i18n.locales;
     return matchLocale(languages, locales, i18n.defaultLocale);
