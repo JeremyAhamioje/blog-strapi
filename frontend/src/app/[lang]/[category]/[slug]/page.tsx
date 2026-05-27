@@ -33,7 +33,8 @@ async function getMetaData(slug: string) {
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
     const meta = await getMetaData(params.slug);
-    const metadata = meta[0].attributes.seo;
+    const metadata = meta?.[0]?.attributes?.seo;
+    if (!metadata) return {};
 
     return {
         title: metadata.metaTitle,
