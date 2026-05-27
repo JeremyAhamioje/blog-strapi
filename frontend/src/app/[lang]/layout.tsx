@@ -49,7 +49,18 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function RootLayout({ children, params }: { children: React.ReactNode; params: { lang: string } }) {
   const global = await getGlobal();
-  if (!global.data) return null;
+
+  if (!global.data) {
+    return (
+      <html lang={params.lang}>
+        <body>
+          <main style={{ minHeight: "100vh", background: "var(--bg)" }}>
+            {children}
+          </main>
+        </body>
+      </html>
+    );
+  }
 
   const { navbar, footer } = global.data.attributes;
   const navbarLogoUrl = getStrapiMedia(navbar.navbarLogo.logoImg.data.attributes.url);
